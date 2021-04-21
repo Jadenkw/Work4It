@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.views import View
 from .models import Workout
@@ -45,7 +45,13 @@ def addWorkout(request):
             workout.workout_points = int((endtime-starttime) * (0.01 * int(workout.workout_calories)))
         else:
             workout.workout_points = 0 # they worked out for a full day??
+        workout_dict = Workout.objects.filter(user=request.user)
+        totalpoints = 0
+        for w in workout_dict:
+            totalpoints += w.workout_points
+        level = calcLevel(totalpoints)
         workout.save()
+        return redirect('exercise:dashboard')
     return render(request, 'exercise/workout.html')
 
 def dashboardView(request):
