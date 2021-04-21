@@ -61,6 +61,10 @@ def dashboardView(request):
     for w in workout_dict:
         totalpoints += w.workout_points
     level = calcLevel(totalpoints)
+    for x in workout_dict:
+        temp = x.workout_pub_date
+        date = temp.strftime("%B %d, %Y")
+        x.workout_pub_date = date
     return render(request, 'exercise/dashboard.html', {'workout_dict': workout_dict, 'totalpoints':totalpoints, 'level':level})
 
 def leaderboardView(request):
