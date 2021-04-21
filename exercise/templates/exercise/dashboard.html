@@ -11,9 +11,50 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="../../static/exercise/assets/css/main.css" />
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+		  google.charts.load("current", {packages:["calendar"]});
+		  google.charts.setOnLoadCallback(drawChart);
+	
+	   function drawChart() {
+		   var dataTable = new google.visualization.DataTable();
+		   dataTable.addColumn({ type: 'date', id: 'Date' });
+		   dataTable.addColumn({ type: 'number', id: 'Calories' });
+		   
+		   dataTable.addRows([
+
+				{% for x, y in date_calories.items %}
+					  [ new Date( {{y.0}}, {{y.1}}, {{y.2}}), {{y.3}} ],
+				{% endfor %}
+			]);
+		   var chart = new google.visualization.Calendar(document.getElementById('calendar_basic'));
+	
+		   var options = {
+			 height: 300,
+			 width: 1000,
+			 calendar:{
+				 underMonthSpace: 15,
+				 yearLabel:{
+					 fontName: 'Arial',
+					 color: '#000000',
+					 bold: false
+				 },
+				 monthLabel:{
+					 fontName: 'Arial',
+					 color: '#000000',
+					 bold: false
+				 }
+			 },
+			 colorAxis:{
+				minValue: 0,  colors: ['#eecda3', '#ef629f']
+			 }
+		   };
+	
+		   chart.draw(dataTable, options);
+	   }
+		</script>
 	</head>
 	<body>
-
 		{% if user.is_authenticated %} <!-- AUTHENTICATED USER-->
 		<!-- Header -->
 			<header id="header" class="alt">
@@ -77,7 +118,7 @@
 												<th>Title</th>
 												<th>Description</th>
 												<th>Points</th>
-												<th>Calories</th>
+												<!-- <th>Calories</th> -->
 												<th>Start Time</th>
 												<th>End Time</th>
 												<th>Date</th>
@@ -89,7 +130,7 @@
 												<td>{{ w.workout_title }}</td>
 												<td>{{ w.workout_description}}</td>
 												<td>{{ w.workout_points}}</td>
-												<td>{{ w.workout_calories}}</td>
+												<!-- <td>{{ w.workout_calories}}</td> -->
 												<td>{{ w.workout_start_time}}</td>
 												<td>{{ w.workout_end_time}}</td>
 												<td>{{ w.workout_pub_date }}</td>
@@ -101,6 +142,14 @@
 						</div>
 					</div>
 				</div>
+			</section>
+			<section id="four" class="wrapper style2">
+				<div class="inner">
+						<div class="content">
+							<header class="align-center">
+								<h2>Calories Burned Chart</h2>
+								<div id="calendar_basic" style="margin-left:150px; margin-right:200px width: 1000px; height: 200px;"></div>
+							</header>
 			</section>
 		<!-- TOTAL POINTS AND LEVEL -->
 		<section id="five" class="wrapper style3">
@@ -120,7 +169,6 @@
 				&copy; Untitled. All rights reserved.
 			</div>
 		</footer>
-
 		<!-- Scripts -->
 			<script src="../../static/exercise/assets/js/jquery.min.js"></script>
 			<script src="../../static/exercise/assets/js/jquery.scrollex.min.js"></script>
