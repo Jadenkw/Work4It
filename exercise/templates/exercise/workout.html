@@ -43,7 +43,9 @@
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="{% url 'exercise:home' %}">Home</a></li>
+					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
 					<li><a href="{% provider_login_url 'google' %}?next=/dashboard">Login</a></li>
+					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
 				</ul>
 			</nav>
 			{% endif %}
