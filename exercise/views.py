@@ -63,9 +63,21 @@ def dashboardView(request):
     level = calcLevel(totalpoints)
     for x in workout_dict:
         temp = x.workout_pub_date
-        date = temp.strftime("%B %d, %Y")
+        date = temp.strftime("%B %d, %Y")       # FOR TABLE OF WORKOUTS
         x.workout_pub_date = date
-    return render(request, 'exercise/dashboard.html', {'workout_dict': workout_dict, 'totalpoints':totalpoints, 'level':level})
+    
+    date_calories_query = Workout.objects.filter(user=request.user) # FOR GOOGLE CHARTS API
+    date_calories = dict()
+    for y in date_calories_query:
+        temp = y.workout_pub_date
+        # print(temp)
+        year = temp.strftime("%Y")
+        month = temp.strftime("%m")
+        day = temp.strftime("%d")
+        calories = y.workout_calories
+        date_calories[y.workout_title] = [int(year), int(month)-1, int(day), int(calories)]
+    print(date_calories)
+    return render(request, 'exercise/dashboard.html', {'workout_dict': workout_dict, 'date_calories': date_calories, 'totalpoints':totalpoints, 'level':level})
 
 def leaderboardView(request):
     render(request, 'exercise/index.html')
