@@ -3,7 +3,7 @@ https://cs3240-final-project.herokuapp.com/
 
 Our exercise gamification website includes the following features:
 - Home Page
-- Login (Google API)
+- Login/Logout (Google API)
 - Instruction Videos
   - Videos that are relevant to people who want to begin working out and/or improving their routines
 - Dashboard
