@@ -69,7 +69,7 @@
 			<section id="One" class="wrapper style3">
 				<div class="inner">
 					<header class="align-center">
-						<p>This is where you can add your workouts</p>
+						<p>Add A Workout</p>
 						<h2>{{ user.username }}</h2>
 					</header>
 				</div>
@@ -102,7 +102,7 @@
 				<!-- CALORIES -->
 				<div class="6u 12u$(xsmall)">
 					<p style="color:black;margin:auto;">Calories Burned</p>
-					<input type="number" name="workout_calories" id="workout_calories" value="" required/>
+					<input type="number" min="0" name="workout_calories" id="workout_calories" value="" required/>
 					<!--need onclick="showDiv()" for calorie calculator-->
 					<a style="color:blue; text-decoration:none;" href="https://www.verywellfit.com/how-many-calories-you-burn-during-exercise-4111064" target="_blank" rel="noopener noreferrer">How Do I Calculate Calories Burned?</a>
 					<!-- Couldn't get this to work, supposed to expand into a little calorie calculator but would randomly be really short
