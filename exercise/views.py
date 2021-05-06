@@ -76,42 +76,53 @@ def dashboardView(request):
         day = temp.strftime("%d")
         calories = y.workout_calories
         date_calories[y.workout_title] = [int(year), int(month)-1, int(day), int(calories)]
-    print(date_calories)
-    return render(request, 'exercise/dashboard.html', {'workout_dict': workout_dict, 'date_calories': date_calories, 'totalpoints':totalpoints, 'level':level})
+    #print(date_calories)
+    pointstonext = toNextLevel(totalpoints)
+    return render(request, 'exercise/dashboard.html', {'workout_dict': workout_dict, 'date_calories': date_calories, 'totalpoints':totalpoints, 'level':level, 'pointstonext':pointstonext})
 
 def leaderboardView(request):
     render(request, 'exercise/index.html')
     all_users = User.objects.all()
     leaderboard = {}
     totalpoints = 0
-    i = 0
+    userrank = 0
     for currentuser in all_users: # loop through all users
         userworkouts = Workout.objects.filter(user=currentuser) # grab all workouts for current user
         for workout in userworkouts: # for all currentuser's workouts
             totalpoints += workout.workout_points # add points to totalpoints
         leaderboard[currentuser.username] = totalpoints
         totalpoints = 0
-    sortedboard = sorted(leaderboard.items(), key=lambda item: item[1], reverse=True) # sort the leaderboard by descending total points
 
+    sortedboard = sorted(leaderboard.items(), key=lambda item: item[1], reverse=True) # sort the leaderboard by descending total points
+    outsideoften = False
+    for i in range(0,len(sortedboard)):
+        if(sortedboard[i][0] == request.user.username):
+            userrank = i+1
+    if(userrank > 10):
+        outsideoften = True
     if(request.user.is_authenticated):
         workout_dict = Workout.objects.filter(user=request.user)
         totalpoints = 0
         for w in workout_dict:
             totalpoints += w.workout_points
     level = calcLevel(totalpoints)
-
-    return render(request, 'exercise/leaderboard.html', {'leaderboard':sortedboard[0:10], 'totalpoints':totalpoints, 'level':level})
+    pointstonext = toNextLevel(totalpoints)
+    return render(request, 'exercise/leaderboard.html', {'leaderboard':sortedboard[0:10], 'totalpoints':totalpoints, 'level':level, 'pointstonext':pointstonext, 'userrank':userrank, 'outsideten':outsideoften})
 
 def calcLevel(points): # calculate the user's level based on increments of 500 points
     if(points == 0):
         return 1
     level = 0
     while(points > 0):
-        points -= 500
+        points -= 1000
         level+=1
     return level
 
-
+def toNextLevel(points): # calculates the points needed to next level
+    next = 0
+    while(next < points):
+        next += 1000
+    return abs(next-points)
 
 
 

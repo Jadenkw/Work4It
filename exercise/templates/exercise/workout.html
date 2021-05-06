@@ -12,30 +12,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="../../static/exercise/assets/css/main.css" />
 	</head>
-	<body>
+	<script>
+	function showDiv() {
+		if(document.getElementById('calorieCalc').style.display == "flex") {
+			document.getElementById('calorieCalc').style.display = "none";
+		}
+		else {
+			document.getElementById('calorieCalc').style.display = "flex";
+		}
 
+	 }
+	</script>
+
+	<body>
 		{% if user.is_authenticated %} <!-- AUTHENTICATED USER-->
 		<!-- Header -->
 			<header id="header" class="alt">
-				<div class="logo"><a href="{% url 'exercise:workout' %}">New Workout</a></div>
-				<a href="#menu">Menu</a>
-			</header>
-
-		<!-- Nav -->
-			<nav id="menu">
-				<ul class="links">
-                    <li><a href="{% url 'exercise:home' %}">Home</a></li>
-					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
-                    <li><a href="{% url 'exercise:workout' %}">Add Workout</a></li>
-					<li><a href="{% url 'exercise:dashboard' %}">Dashboard</a></li>
-					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
-                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
-				</ul>
-			</nav>
-			{% else %} <!-- UN AUTHENTICATED USER-->
-			<!-- Header -->
-			<header id="header" class="alt">
-				<div class="logo"><a href="{% url 'exercise:home' %}">Work4It <span>by A-17</span></a></div>
+				<div class="logo"><a href="{% url 'exercise:home' %}">Welcome <span>{{ user.username }}</span></a></div>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:9.5em; position:absolute;"href="{% url 'account_logout'%}" 
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Logout</a>
 				<a href="#menu">Menu</a>
 			</header>
 
@@ -44,7 +40,26 @@
 				<ul class="links">
 					<li><a href="{% url 'exercise:home' %}">Home</a></li>
 					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
-					<li><a href="{% provider_login_url 'google' %}?next=/dashboard">Login</a></li>
+					<li><a href="{% url 'exercise:workout' %}">Add Workout</a></li>
+					<li><a href="{% url 'exercise:dashboard' %}">Dashboard</a></li>
+					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
+				</ul>
+			</nav>
+			{% else %} <!-- UN AUTHENTICATED USER-->
+			<!-- Header -->
+			<header id="header" class="alt">
+				<div class="logo"><a href="{% url 'exercise:home' %}">Work4It <span>by A-17</span></a></div>
+				<a style="font-size:1.25em; left:7.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;"href="{% provider_login_url 'google' %}?next=/dashboard"
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Login</a>
+				<a href="#menu">Menu</a>
+			</header>
+
+		<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li><a href="{% url 'exercise:home' %}">Home</a></li>
+					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
 					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
 				</ul>
 			</nav>
@@ -88,6 +103,17 @@
 				<div class="6u 12u$(xsmall)">
 					<p style="color:black;margin:auto;">Calories Burned</p>
 					<input type="number" name="workout_calories" id="workout_calories" value="" required/>
+					<!--need onclick="showDiv()" for calorie calculator-->
+					<a style="color:blue; text-decoration:none;" href="https://www.verywellfit.com/how-many-calories-you-burn-during-exercise-4111064" target="_blank" rel="noopener noreferrer">How Do I Calculate Calories Burned?</a>
+					<!-- Couldn't get this to work, supposed to expand into a little calorie calculator but would randomly be really short
+						<div id="calorieCalc" style="display:none;">
+						<script type="text/javascript" async id="calories-burned-calculator" data-type="verywell-tool" 
+						data-vertical="verywellfit" 
+						src="https://www.verywellfit.com/static/4.219.0/components/tools/calculators/iframe-embed/embed.min.js?id=calories-burned-calculator">
+						</script>
+					</div>
+					-->
+
 				</div>
 				<!-- WORKOUT DESCRIPTION -->
 				<div class="12u$">

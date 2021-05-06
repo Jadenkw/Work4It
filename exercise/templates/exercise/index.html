@@ -17,6 +17,9 @@
 		<!-- Header -->
 			<header id="header" class="alt">
 				<div class="logo"><a href="{% url 'exercise:home' %}">Welcome <span>{{ user.username }}</span></a></div>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:9.5em; position:absolute;"href="{% url 'account_logout'%}" 
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Logout</a>
 				<a href="#menu">Menu</a>
 			</header>
 
@@ -28,13 +31,15 @@
 					<li><a href="{% url 'exercise:workout' %}">Add Workout</a></li>
 					<li><a href="{% url 'exercise:dashboard' %}">Dashboard</a></li>
 					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
-					<li><a href="{% url 'account_logout'%}">Logout</a></li>
 				</ul>
 			</nav>
 			{% else %} <!-- UN AUTHENTICATED USER-->
 			<!-- Header -->
 			<header id="header" class="alt">
 				<div class="logo"><a href="{% url 'exercise:home' %}">Work4It <span>by A-17</span></a></div>
+				<a style="font-size:1.25em; left:7.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;"href="{% provider_login_url 'google' %}?next=/dashboard"
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Login</a>
 				<a href="#menu">Menu</a>
 			</header>
 
@@ -43,7 +48,6 @@
 				<ul class="links">
 					<li><a href="{% url 'exercise:home' %}">Home</a></li>
 					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
-					<li><a href="{% provider_login_url 'google' %}?next=/dashboard">Login</a></li>
 					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
 				</ul>
 			</nav>
@@ -74,7 +78,7 @@
 					<div class="inner">
 						<header>
 							<p>Level up as you complete more workouts</p>
-							<h2>Tier System</h2>
+							<h2>Level-Up System</h2>
 						</header>
 					</div>
 				</article>
@@ -83,7 +87,7 @@
 					<div class="inner">
 						<header>
 							<p>See how you rank compared to other users</p>
-							<h2>Leaderboards</h2>
+							<h2>Leaderboard</h2>
 						</header>
 					</div>
 				</article>

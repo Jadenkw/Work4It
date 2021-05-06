@@ -14,11 +14,13 @@
 		<link rel="stylesheet" href="../../static/exercise/assets/css/counter.css" />
 	</head>
 	<body>
-
 		{% if user.is_authenticated %} <!-- AUTHENTICATED USER-->
 		<!-- Header -->
 			<header id="header" class="alt">
-				<div class="logo"><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></div>
+				<div class="logo"><a href="{% url 'exercise:home' %}">Welcome <span>{{ user.username }}</span></a></div>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:9.5em; position:absolute;"href="{% url 'account_logout'%}" 
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Logout</a>
 				<a href="#menu">Menu</a>
 			</header>
 
@@ -30,7 +32,6 @@
 					<li><a href="{% url 'exercise:workout' %}">Add Workout</a></li>
 					<li><a href="{% url 'exercise:dashboard' %}">Dashboard</a></li>
 					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
-					<li><a href="{% url 'account_logout' %}?next=/">Logout</a></li>
 				</ul>
 			</nav>
 
@@ -49,12 +50,9 @@
 				<div class="inner">
 					<div class="box">
 						<div class="content">
-							<header class="align-center">
-								<p>View the Leaderboard</p>
-							</header>
-							<h3>Leaderboard</h3>
+							<h3 class="align-center">Leaderboard</h3>
 								<div class="table-wrapper">
-									<table>
+									<table id="leaderboard">
 										<thead>
 											<tr>
 												<th>Rank</th>
@@ -65,7 +63,7 @@
 										</thead>
 										<tbody>
 											{% for u in leaderboard %}
-												{% if u.0 == user.username %}
+												{% if u.0 == user.username and not outsideoften%}
 													<tr style="background-color:lightblue">
 														<td></td>
 														<td>{{u.0}}</td>
@@ -80,6 +78,15 @@
 												{% endif %}
 											{% endfor %}
 										</tbody>
+										<tfoot>
+											{% if outsideoften %}
+											<tr style="background-color:lightblue">
+												<td>{{userrank}}</td>
+												<td>{{user.username}}</td>
+												<td>{{totalpoints}}</td>
+											</tr>
+											{% endif %}
+										</tfoot>
 									</table>
 								</div>
 						</div>
@@ -93,21 +100,24 @@
 						<header class="align-center">
 							<h2>Total Points: {{totalpoints}}</h2>
 							<h3>Level: {{level}}</h3>
+							<h4>Points to Next Level: {{pointstonext}}</h4>
 						</header>
 			</section>
 			{% else %} <!-- UN AUTHENTICATED USER-->
 			<!-- Header -->
 			<header id="header" class="alt">
 				<div class="logo"><a href="{% url 'exercise:home' %}">Work4It <span>by A-17</span></a></div>
+				<a style="font-size:1.25em; left:7.5em; position:absolute;">|</a>
+				<a style="font-size:1.25em; left:8.5em; position:absolute;"href="{% provider_login_url 'google' %}?next=/dashboard"
+					onmouseover="this.style.color='rgba(255, 255, 255, 0.65)';" onmouseout="this.style.color='white';">Login</a>
 				<a href="#menu">Menu</a>
 			</header>
 
-			<!-- Nav -->
+		<!-- Nav -->
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="{% url 'exercise:home' %}">Home</a></li>
 					<li><a href="{% url 'exercise:video' %}">Instruction Videos</a></li>
-					<li><a href="{% provider_login_url 'google' %}?next=/dashboard">Login</a></li>
 					<li><a href="{% url 'exercise:leaderboard' %}">Leaderboard</a></li>
 				</ul>
 			</nav>
@@ -126,12 +136,9 @@
 				<div class="inner">
 					<div class="box">
 						<div class="content">
-							<header class="align-center">
-								<p>View the Leaderboard</p>
-							</header>
-							<h3>Leaderboard</h3>
+							<h3 class="align-center">Leaderboard</h3>
 								<div class="table-wrapper">
-									<table>
+									<table id="leaderboard">
 										<thead>
 											<tr>
 												<th>Rank</th>

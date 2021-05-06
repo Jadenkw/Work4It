@@ -10,6 +10,9 @@ from embed_video.fields import EmbedVideoField
 
 class Item(models.Model):
     video = EmbedVideoField()  # same like models.URLField()
+    video_title = models.CharField(max_length=200, default="")
+    def __str__(self):
+        return self.video_title
 
 class Workout(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
