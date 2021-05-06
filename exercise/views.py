@@ -100,6 +100,7 @@ def leaderboardView(request):
             userrank = i+1
     if(userrank > 10):
         outsideoften = True
+    print(userrank)
     if(request.user.is_authenticated):
         workout_dict = Workout.objects.filter(user=request.user)
         totalpoints = 0
