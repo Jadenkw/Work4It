@@ -121,7 +121,7 @@ def calcLevel(points): # calculate the user's level based on increments of 500 p
 
 def toNextLevel(points): # calculates the points needed to next level
     next = 0
-    while(next < points):
+    while(next <= points):
         next += 1000
     return abs(next-points)
 
