@@ -1,5 +1,4 @@
 from django.test import TestCase
-<<<<<<< HEAD
 from exercise.models import Item, Workout
 from django.http import HttpRequest
 from django.test import SimpleTestCase
@@ -7,13 +6,6 @@ from django.urls import reverse
 import datetime
 # Create your tests here.
 
-=======
-from django.http import HttpRequest
-from django.test import SimpleTestCase
-from django.urls import reverse
-
-# Create your tests here.
->>>>>>> 0c5fa91b22f3438bd1796bc182e41ec5ec23f961
 class HomePageTests(SimpleTestCase):
 
     def test_home_page_status_code(self):
@@ -30,7 +22,6 @@ class HomePageTests(SimpleTestCase):
 
     def test_home_page_status_code(self):
         response = self.client.get('/video')
-<<<<<<< HEAD
         self.assertEquals(response.status_code, 301)
 
 class VideoTestCase(TestCase):
@@ -50,6 +41,3 @@ class WorkoutTestCase(TestCase):
     def test_calorie_count(self):
         sampleworkout = Workout.objects.get(workout_title="Sample")
         self.assertEqual(sampleworkout.workout_calories, 500)
-=======
-        self.assertEquals(response.status_code, 301)
->>>>>>> 0c5fa91b22f3438bd1796bc182e41ec5ec23f961
